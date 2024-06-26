@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from 'react'
 
 const Home = () => {
   const [message, setMessage] = useState('')
-  const [conversation, setConversation] = useState([])
+  // const [conversation, setConversation] = useState([])
 
   const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e?.target?.value)
