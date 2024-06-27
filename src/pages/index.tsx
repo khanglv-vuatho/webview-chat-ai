@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Avatar, Button, Textarea } from '@nextui-org/react'
+import { Avatar, Button, Input, Textarea } from '@nextui-org/react'
 import { ArrowLeft2, Refresh2, Send2 } from 'iconsax-react'
 import { ChangeEvent, useRef, useState, useEffect } from 'react'
 import ImageFallback from '@/components/ImageFallback'
@@ -34,9 +34,9 @@ const Home = () => {
 
       // Compare positions
       if (touch.clientX >= sendPosition.left && touch.clientX <= sendPosition.right && touch.clientY >= sendPosition.top && touch.clientY <= sendPosition.bottom) {
-        alert('Touch is within the send button!')
+        // alert('Touch is within the send button!')
       } else {
-        alert('Touch is outside the send button.')
+        // alert('Touch is outside the send button.')
       }
     }
   }
@@ -79,9 +79,36 @@ const Home = () => {
     setMessage('')
   }
 
+  const [bottomPadding, setBottomPadding] = useState(0)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.visualViewport) {
+        setBottomPadding(window.innerHeight - window.visualViewport.height)
+      } else {
+        setBottomPadding(0)
+      }
+    }
+    const visualViewport = window.visualViewport
+    if (visualViewport) {
+      visualViewport.addEventListener('resize', handleResize)
+      handleResize()
+
+      return () => {
+        visualViewport.removeEventListener('resize', handleResize)
+      }
+    } else {
+      window.addEventListener('resize', handleResize)
+      handleResize()
+
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
+    }
+  }, [])
+
   return (
     <div className='flex h-dvh flex-col' onClick={handleTouch}>
-      <header className='sticky left-0 right-0 top-0 flex items-center justify-between p-4'>
+      <header className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4' style={{ zIndex: 10 }}>
         <ButtonOnlyIcon>
           <ArrowLeft2 />
         </ButtonOnlyIcon>
@@ -90,7 +117,7 @@ const Home = () => {
           <Refresh2 className='text-primary-yellow' onClick={handleReset} />
         </ButtonOnlyIcon>
       </header>
-      <div className='flex h-full flex-col gap-2 p-4'>
+      <div className={`flex flex-1 flex-col gap-2 overflow-auto p-4`}>
         {conversation?.length > 0 ? (
           conversation?.map((item, index) => {
             return <MessageItem key={index} id={item?.id} msg={item.message} />
@@ -115,14 +142,15 @@ const Home = () => {
           <>
             <p className='text-center text-xs font-light text-primary-gray'>Vua Thợ AI đang trong quá trình hoàn thiện.</p>
             <div className='flex items-end gap-2 px-4'>
-              <Textarea
+              <Input
                 ref={inputRef}
-                minRows={1}
-                maxRows={4}
                 onSubmit={(e) => {
                   e.preventDefault() // Prevent default form submission behavior
                   handleSendMessage()
                   handleTouch(e)
+                }}
+                onPointerEnter={() => {
+                  console.log('sad')
                 }}
                 value={message}
                 onChange={handleChangeValue}
