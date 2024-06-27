@@ -1,3 +1,11 @@
-content tho chinh tho phu -> done
-case test success
-abcd
+    base: '',
+                  clearButton: '',
+                  description: '',
+                  errorMessage: '',
+                  helperWrapper: '',
+                  label: '',
+                  mainWrapper: '',
+                  innerWrapper: 'items-end',
+                  input: 'text-sm font-light text-primary-gray placeholder:pl-1',
+                  inputWrapper:
+                    'p-1 min-h-14 border-none bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent group-data-[focus-visible=true]:ring-0 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-0 group-data-[focus-visible=true]:ring-offset-background'

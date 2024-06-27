@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Avatar, Button, Textarea } from '@nextui-org/react'
 import { ArrowLeft2, Refresh2, Send2 } from 'iconsax-react'
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState, useEffect } from 'react'
 import ImageFallback from '@/components/ImageFallback'
 import { ButtonOnlyIcon } from '@/modules/Buttons'
 import { TypewriterEffect } from '@/modules/TypewriterEffect'
@@ -17,13 +17,39 @@ const Home = () => {
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
 
+  const [touchPosition, setTouchPosition] = useState({ x: 0, y: 0 })
+
+  const sendRef = useRef<any>(null)
+
+  const handleTouch = (e: any) => {
+    const touch = e
+    setTouchPosition({ x: touch.clientX, y: touch.clientY })
+
+    // Get the position of sendRef
+    const sendPosition = sendRef.current?.getBoundingClientRect()
+
+    if (sendPosition) {
+      console.log('Send Button Position:', sendPosition)
+      console.log('Touch Position:', touchPosition)
+
+      // Compare positions
+      if (touch.clientX >= sendPosition.left && touch.clientX <= sendPosition.right && touch.clientY >= sendPosition.top && touch.clientY <= sendPosition.bottom) {
+        alert('Touch is within the send button!')
+      } else {
+        alert('Touch is outside the send button.')
+      }
+    }
+  }
+
   const inputRef = useRef<any>(null)
 
   const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e?.target?.value)
   }
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.preventDefault() // Prevent default form submission behavior
+
     if (message.trim() === '') return
 
     const newConversation = {
@@ -54,7 +80,7 @@ const Home = () => {
   }
 
   return (
-    <div className='flex h-dvh flex-col'>
+    <div className='flex h-dvh flex-col' onClick={handleTouch}>
       <header className='sticky left-0 right-0 top-0 flex items-center justify-between p-4'>
         <ButtonOnlyIcon>
           <ArrowLeft2 />
@@ -82,7 +108,9 @@ const Home = () => {
       </div>
       <div className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
         {conversation?.length > 5 ? (
-          <IndustryItem />
+          <div className='p-4'>
+            <IndustryItem />
+          </div>
         ) : (
           <>
             <p className='text-center text-xs font-light text-primary-gray'>Vua Thợ AI đang trong quá trình hoàn thiện.</p>
@@ -91,28 +119,36 @@ const Home = () => {
                 ref={inputRef}
                 minRows={1}
                 maxRows={4}
-                onSubmit={handleSendMessage}
+                onSubmit={(e) => {
+                  e.preventDefault() // Prevent default form submission behavior
+                  handleSendMessage()
+                  handleTouch(e)
+                }}
                 value={message}
                 onChange={handleChangeValue}
                 radius='none'
                 placeholder='Nhập tin nhắn'
+                endContent={
+                  <Button
+                    ref={sendRef}
+                    isIconOnly
+                    radius='full'
+                    className='m-2 flex items-center justify-center bg-transparent'
+                    onClick={(e) => {
+                      handleSendMessage()
+                      handleTouch(e)
+                    }}
+                  >
+                    <Send2 variant='Bold' className={`${message?.length > 0 ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
+                  </Button>
+                }
                 classNames={{
-                  base: '1',
-                  clearButton: '2',
-                  description: '3',
-                  errorMessage: '4',
-                  helperWrapper: '5',
                   innerWrapper: 'items-end',
                   input: 'text-sm font-light text-primary-gray placeholder:pl-1',
                   inputWrapper:
-                    'p-1 min-h-14 border-none bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent group-data-[focus-visible=true]:ring-0 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-0 group-data-[focus-visible=true]:ring-offset-background',
-                  label: '9',
-                  mainWrapper: '10'
+                    'p-1 min-h-14 border-none bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent group-data-[focus-visible=true]:ring-0 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-0 group-data-[focus-visible=true]:ring-offset-background'
                 }}
               />
-              <Button isIconOnly radius='full' className='m-2 flex items-center justify-center bg-transparent'>
-                <Send2 onClick={handleSendMessage} variant='Bold' className={`${message?.length > 0 ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
-              </Button>
             </div>
           </>
         )}
