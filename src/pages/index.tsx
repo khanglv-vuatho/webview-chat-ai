@@ -5,6 +5,8 @@ import { ChangeEvent, useRef, useState, useEffect } from 'react'
 import ImageFallback from '@/components/ImageFallback'
 import { ButtonOnlyIcon } from '@/modules/Buttons'
 import { TypewriterEffect } from '@/modules/TypewriterEffect'
+import { postMessageCustom } from '@/utils'
+import { keyPossmessage } from '@/constants'
 
 type TConversation = {
   id: string
@@ -109,7 +111,7 @@ const Home = () => {
   return (
     <div className='flex h-dvh flex-col' onClick={handleTouch}>
       <header className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4' style={{ zIndex: 10 }}>
-        <ButtonOnlyIcon>
+        <ButtonOnlyIcon onPress={() => postMessageCustom({ message: keyPossmessage.CAN_POP })}>
           <ArrowLeft2 />
         </ButtonOnlyIcon>
         <p className='flex-1 justify-between text-center text-base font-bold'>AI Vua thợ</p>
