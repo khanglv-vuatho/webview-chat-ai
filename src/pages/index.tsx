@@ -19,29 +19,7 @@ const Home = () => {
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
 
-  const [touchPosition, setTouchPosition] = useState({ x: 0, y: 0 })
-
   const sendRef = useRef<any>(null)
-
-  const handleTouch = (e: any) => {
-    const touch = e
-    setTouchPosition({ x: touch.clientX, y: touch.clientY })
-
-    // Get the position of sendRef
-    const sendPosition = sendRef.current?.getBoundingClientRect()
-
-    if (sendPosition) {
-      console.log('Send Button Position:', sendPosition)
-      console.log('Touch Position:', touchPosition)
-
-      // Compare positions
-      if (touch.clientX >= sendPosition.left && touch.clientX <= sendPosition.right && touch.clientY >= sendPosition.top && touch.clientY <= sendPosition.bottom) {
-        // alert('Touch is within the send button!')
-      } else {
-        // alert('Touch is outside the send button.')
-      }
-    }
-  }
 
   const inputRef = useRef<any>(null)
 
@@ -81,42 +59,26 @@ const Home = () => {
     setMessage('')
   }
 
-  const [bottomPadding, setBottomPadding] = useState(0)
   useEffect(() => {
-    const handleResize = () => {
-      if (window.visualViewport) {
-        setBottomPadding(window.innerHeight - window.visualViewport.height)
+    const inputEl: any = inputRef.current
+
+    const handleBlur = (e: any) => {
+      if (!sendRef.current.contains(e.relatedTarget)) {
+        inputRef?.current?.blur()
       } else {
-        setBottomPadding(0)
+        inputEl.focus() // Focus lại vào input nếu không phải click vào sendRef
       }
     }
-    const visualViewport = window.visualViewport
-    if (visualViewport) {
-      visualViewport.addEventListener('resize', handleResize)
-      handleResize()
 
-      return () => {
-        visualViewport.removeEventListener('resize', handleResize)
-      }
-    } else {
-      window.addEventListener('resize', handleResize)
-      handleResize()
+    inputEl.addEventListener('blur', handleBlur)
 
-      return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+    return () => {
+      inputEl.removeEventListener('blur', handleBlur)
     }
-  }, [])
-
-  useEffect(() => {
-    var t: any = inputRef.current
-    t.addEventListener('blur', (e: any) => {
-      t.focus()
-    })
-  }, [])
+  }, [sendRef, inputRef, message])
 
   return (
-    <div className='flex h-dvh flex-col' onClick={handleTouch}>
+    <div className='flex h-dvh flex-col'>
       <header className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4' style={{ zIndex: 10 }}>
         <ButtonOnlyIcon onPress={() => postMessageCustom({ message: keyPossmessage.CAN_POP })}>
           <ArrowLeft2 />
@@ -156,7 +118,6 @@ const Home = () => {
                 onSubmit={(e) => {
                   e.preventDefault() // Prevent default form submission behavior
                   handleSendMessage()
-                  handleTouch(e)
                 }}
                 value={message}
                 onChange={handleChangeValue}
@@ -164,7 +125,6 @@ const Home = () => {
                   if (e.key === 'Enter') {
                     e.preventDefault() // Prevent default form submission behavior
                     handleSendMessage()
-                    handleTouch(e)
                   }
                 }}
                 radius='none'
@@ -178,7 +138,6 @@ const Home = () => {
                     onClick={(e) => {
                       e.stopPropagation()
                       handleSendMessage()
-                      handleTouch(e)
                     }}
                   >
                     <Send2 variant='Bold' className={`${message?.length > 0 ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
