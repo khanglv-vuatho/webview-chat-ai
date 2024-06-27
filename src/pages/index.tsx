@@ -108,6 +108,13 @@ const Home = () => {
     }
   }, [])
 
+  useEffect(() => {
+    var t: any = inputRef.current
+    t.addEventListener('blur', (e: any) => {
+      t.focus()
+    })
+  }, [])
+
   return (
     <div className='flex h-dvh flex-col' onClick={handleTouch}>
       <header className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4' style={{ zIndex: 10 }}>
@@ -169,6 +176,7 @@ const Home = () => {
                     radius='full'
                     className='m-2 flex items-center justify-center bg-transparent'
                     onClick={(e) => {
+                      e.stopPropagation()
                       handleSendMessage()
                       handleTouch(e)
                     }}
