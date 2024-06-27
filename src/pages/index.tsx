@@ -7,6 +7,7 @@ import { ButtonOnlyIcon } from '@/modules/Buttons'
 import { TypewriterEffect } from '@/modules/TypewriterEffect'
 import { postMessageCustom } from '@/utils'
 import { keyPossmessage } from '@/constants'
+import AILoading from '@/modules/AILoading'
 
 type TConversation = {
   id: string
@@ -16,6 +17,7 @@ type TConversation = {
 
 const words = 'Xin chào! Hãy cho tôi biết bạn đang cần người thợ như thế nào?'
 const Home = () => {
+  const [isLoadingAI, setIsLoadingAI] = useState(true)
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
 
@@ -79,7 +81,13 @@ const Home = () => {
 
   return (
     <div className='flex h-dvh flex-col'>
-      <header className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4' style={{ zIndex: 10 }}>
+      <motion.header
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 1.5 }}
+        className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4'
+        style={{ zIndex: 10 }}
+      >
         <ButtonOnlyIcon onPress={() => postMessageCustom({ message: keyPossmessage.CAN_POP })}>
           <ArrowLeft2 />
         </ButtonOnlyIcon>
@@ -87,9 +95,11 @@ const Home = () => {
         <ButtonOnlyIcon>
           <Refresh2 className='text-primary-yellow' onClick={handleReset} />
         </ButtonOnlyIcon>
-      </header>
+      </motion.header>
       <div className={`flex flex-1 flex-col gap-2 overflow-auto p-4`}>
-        {conversation?.length > 0 ? (
+        {isLoadingAI ? (
+          <AILoading handleTimeEnd={() => setIsLoadingAI(false)} />
+        ) : conversation?.length > 0 ? (
           conversation?.map((item, index) => {
             return <MessageItem key={index} id={item?.id} msg={item.message} />
           })
@@ -104,7 +114,8 @@ const Home = () => {
           </div>
         )}
       </div>
-      <div className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
+
+      <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
         {conversation?.length > 5 ? (
           <div className='p-4'>
             <IndustryItem />
@@ -153,7 +164,7 @@ const Home = () => {
             </div>
           </>
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }
