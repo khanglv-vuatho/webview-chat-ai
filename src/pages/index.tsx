@@ -125,6 +125,8 @@ const Home = () => {
             <p className='text-center text-xs font-light text-primary-gray'>Vua Thợ AI đang trong quá trình hoàn thiện.</p>
             <div className='flex items-end gap-2 px-4'>
               <Input
+                key={isLoadingAI.toString()}
+                autoFocus
                 ref={inputRef}
                 onSubmit={(e) => {
                   e.preventDefault() // Prevent default form submission behavior
