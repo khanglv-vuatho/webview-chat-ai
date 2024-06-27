@@ -149,11 +149,15 @@ const Home = () => {
                   handleSendMessage()
                   handleTouch(e)
                 }}
-                onPointerEnter={() => {
-                  console.log('sad')
-                }}
                 value={message}
                 onChange={handleChangeValue}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault() // Prevent default form submission behavior
+                    handleSendMessage()
+                    handleTouch(e)
+                  }
+                }}
                 radius='none'
                 placeholder='Nhập tin nhắn'
                 endContent={
