@@ -2,10 +2,12 @@ import { Route, Routes } from 'react-router-dom'
 
 import InvalidPage from './pages/invalid'
 import Home from './pages'
+import TestPage from './pages/test'
 
 const routes = [
   { path: '/', element: <Home /> },
-  { path: '/invalid', element: <InvalidPage /> }
+  { path: '/invalid', element: <InvalidPage /> },
+  { path: '/test', element: <TestPage /> }
 ]
 
 function App() {

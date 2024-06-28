@@ -1,5 +1,5 @@
 import { motion, MotionValue } from 'framer-motion'
-import ImageFallback from './ImageFallback'
+import ImageFallback from '../../components/ImageFallback'
 
 const transition = {
   duration: 0,
@@ -8,7 +8,7 @@ const transition = {
 
 export const GoogleGeminiEffect = ({ pathLengths }: { pathLengths: MotionValue[] }) => {
   return (
-    <div className='relative'>
+    <div className='relative w-full'>
       <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
         <motion.div initial={{ opacity: 0, scale: 0, y: -100 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }} className='h-12 w-16'>
           <ImageFallback src='/robot.png' className='size-full' />

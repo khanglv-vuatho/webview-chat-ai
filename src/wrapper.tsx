@@ -22,7 +22,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
         payload: lang
       })
     } else {
-      navigate('/invalid')
+      // navigate('/invalid')
     }
   }, [navigate])
 
@@ -38,7 +38,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
           if (isAppWebView) {
             checkSession()
           } else {
-            navigate('/invalid')
+            // navigate('/invalid')
           }
         } catch (error) {
           console.log({ error })
@@ -53,7 +53,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     const handleResize = () => {
       if (window.innerWidth < 600) return
 
-      navigate('/invalid')
+      // navigate('/invalid')
     }
 
     handleResize()

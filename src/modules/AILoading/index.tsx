@@ -1,6 +1,6 @@
-import { GoogleGeminiEffect } from '@/components/google-gemini-effect'
 import { useMotionValue, useSpring } from 'framer-motion'
 import { useEffect } from 'react'
+import { GoogleGeminiEffect } from '../GoogleGeminiEffect'
 
 const AILoading = ({ handleTimeEnd }: { handleTimeEnd: () => void }) => {
   const value = useMotionValue(0)

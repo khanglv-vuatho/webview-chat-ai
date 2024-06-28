@@ -72,12 +72,18 @@ const Home = () => {
       }
     }
 
-    inputEl.addEventListener('blur', handleBlur)
+    inputEl?.addEventListener('blur', handleBlur)
 
     return () => {
-      inputEl.removeEventListener('blur', handleBlur)
+      inputEl?.removeEventListener('blur', handleBlur)
     }
   }, [sendRef, inputRef, message])
+
+  useEffect(() => {
+    inputRef?.current?.click()
+
+    console.log(inputRef?.current)
+  }, [isLoadingAI, inputRef, message])
 
   return (
     <div className='flex h-dvh flex-col'>
@@ -96,13 +102,15 @@ const Home = () => {
           <Refresh2 className='text-primary-yellow' onClick={handleReset} />
         </ButtonOnlyIcon>
       </motion.header>
-      <div className={`flex flex-1 flex-col gap-2 overflow-auto p-4`}>
+      <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
         {isLoadingAI ? (
           <AILoading handleTimeEnd={() => setIsLoadingAI(false)} />
         ) : conversation?.length > 0 ? (
-          conversation?.map((item, index) => {
-            return <MessageItem key={index} id={item?.id} msg={item.message} />
-          })
+          <div className='flex flex-col gap-2 px-4'>
+            {conversation?.map((item, index) => {
+              return <MessageItem key={index} id={item?.id} msg={item.message} />
+            })}
+          </div>
         ) : (
           <div className='mx-auto flex max-w-[258px] flex-col items-center gap-2'>
             <div className='mx-auto h-12 w-16'>
@@ -128,15 +136,11 @@ const Home = () => {
                 key={isLoadingAI.toString()}
                 autoFocus
                 ref={inputRef}
-                onSubmit={(e) => {
-                  e.preventDefault() // Prevent default form submission behavior
-                  handleSendMessage()
-                }}
                 value={message}
                 onChange={handleChangeValue}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    e.preventDefault() // Prevent default form submission behavior
+                    e.preventDefault()
                     handleSendMessage()
                   }
                 }}
@@ -174,7 +178,11 @@ const Home = () => {
 const MessageItem = ({ msg, id }: { id: string; msg: string }) => {
   return (
     <div className={`flex items-end gap-1 ${id === 'bot' ? 'justify-start' : 'justify-end'}`}>
-      {id === 'bot' && <Avatar src='/robot.png' className={`size-10 shrink-0`} />}
+      {id === 'bot' && (
+        <div className='h-12 w-16'>
+          <ImageFallback src='/robot.png' className={`size-full scale-85`} />
+        </div>
+      )}
       <motion.div
         initial={{ opacity: 0, x: id === 'bot' ? 0 : -100, y: id === 'bot' ? 0 : 10 }}
         animate={{
