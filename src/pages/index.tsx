@@ -21,13 +21,17 @@ const Home = () => {
   const [isLoadingAI, setIsLoadingAI] = useState(true)
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
+  const [isChating, setIsChating] = useState(false)
 
   const sendRef = useRef<any>(null)
-
   const inputRef = useRef<any>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e?.target?.value)
+    if (e?.target?.value === '') setIsChating(false)
+
+    setIsChating(true)
   }
 
   const handleSendMessage = (e?: React.MouseEvent<HTMLButtonElement>) => {
@@ -81,10 +85,8 @@ const Home = () => {
   }, [sendRef, inputRef, message])
 
   useEffect(() => {
-    inputRef?.current?.click()
-
-    console.log(inputRef?.current)
-  }, [isLoadingAI, inputRef, message])
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [conversation])
 
   return (
     <div className='flex h-dvh flex-col'>
@@ -111,6 +113,7 @@ const Home = () => {
             {conversation?.map((item, index) => {
               return <MessageItem key={index} id={item?.id} msg={item.message} />
             })}
+            <div ref={bottomRef} /> {/* Bottom reference for auto-scrolling */}
           </div>
         ) : (
           <div className='mx-auto flex max-w-[258px] flex-col items-center gap-2'>
@@ -125,7 +128,7 @@ const Home = () => {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
-        {conversation?.length > 10 ? (
+        {conversation?.length > 20 ? (
           <div className='p-4'>
             <IndustryItem />
           </div>
@@ -151,6 +154,7 @@ const Home = () => {
                   <Button
                     ref={sendRef}
                     isIconOnly
+                    isDisabled={!isChating}
                     radius='full'
                     className='m-2 flex items-center justify-center bg-transparent'
                     onClick={(e) => {
