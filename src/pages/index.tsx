@@ -198,7 +198,7 @@ const MessageItem = ({ msg, id }: { id: string; msg: string }) => {
         </div>
       )}
       <motion.div
-        initial={{ opacity: 0, x: id === 'bot' ? 0 : -100, y: id === 'bot' ? 0 : 10 }}
+        initial={{ opacity: 0, x: id === 'bot' ? 0 : -100, y: id === 'bot' ? 0 : 30 }}
         animate={{
           opacity: 1,
           x: 0,
@@ -210,7 +210,7 @@ const MessageItem = ({ msg, id }: { id: string; msg: string }) => {
                 }
               : {
                   x: {
-                    delay: 0.1,
+                    delay: 0.13,
                     type: 'tween',
                     stiffness: 100
                   },
