@@ -65,6 +65,7 @@ const Home = () => {
 
   const isElementInView = (element: HTMLElement) => {
     const rect = element.getBoundingClientRect()
+    console.log(rect.bottom <= window.innerHeight)
     return rect.bottom <= window.innerHeight
   }
 
@@ -90,9 +91,9 @@ const Home = () => {
     if (!bottomRef.current) return
 
     const shouldScroll = !isElementInView(bottomRef.current)
-    if (shouldScroll) {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
+    // if (shouldScroll) {
+    bottomRef.current.scrollIntoView({ behavior: 'smooth' })
+    // }
   }, [conversation])
 
   return (
@@ -135,7 +136,7 @@ const Home = () => {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
-        {conversation?.length > 10 ? (
+        {conversation?.length > 20 ? (
           <div className='p-4'>
             <IndustryItem />
           </div>
