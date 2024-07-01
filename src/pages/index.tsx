@@ -70,6 +70,14 @@ const Home = () => {
     setMessage('')
   }
 
+  const handleTimeEnd = () => {
+    const timer = setTimeout(() => {
+      setIsLoadingAI(false)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }
+
   useEffect(() => {
     const inputEl: any = inputRef.current
 
@@ -95,7 +103,7 @@ const Home = () => {
   }, [conversation])
 
   return (
-    <div className='flex h-dvh flex-col'>
+    <div className={`flex ${isLoadingAI ? '' : 'h-dvh'} flex-col`}>
       <motion.header
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -113,7 +121,7 @@ const Home = () => {
       </motion.header>
       <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`} ref={containerRef}>
         {isLoadingAI ? (
-          <AILoading handleTimeEnd={() => setIsLoadingAI(false)} />
+          <AILoading handleTimeEnd={handleTimeEnd} />
         ) : conversation?.length > 0 ? (
           <div className='flex flex-col gap-2 px-4'>
             {conversation?.map((item, index) => {
