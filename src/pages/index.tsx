@@ -71,11 +71,7 @@ const Home = () => {
   }
 
   const handleTimeEnd = () => {
-    const timer = setTimeout(() => {
-      setIsLoadingAI(false)
-    }, 500)
-
-    return () => clearTimeout(timer)
+    setIsLoadingAI(false)
   }
 
   useEffect(() => {
@@ -103,7 +99,7 @@ const Home = () => {
   }, [conversation])
 
   return (
-    <div className={`flex ${isLoadingAI ? '' : 'h-dvh'} flex-col`}>
+    <div className={`flex ${isLoadingAI ? 'scrollbar-hide' : 'h-dvh scrollbar-hide'} flex-col`}>
       <motion.header
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
