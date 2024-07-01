@@ -8,7 +8,7 @@ type Props = {
 
 const ButtonOnlyIcon = ({ className, children, ...props }: Props) => {
   return (
-    <Button {...props} isIconOnly className={twMerge('w-fit rounded-full bg-transparent', className)}>
+    <Button {...props} isIconOnly className={twMerge('w-fit rounded-full bg-transparent outline-none data-[focus-visible=true]:outline-none data-[focus-visible=true]:outline-offset-0', className)}>
       {children}
     </Button>
   )

@@ -99,7 +99,7 @@ const Home = () => {
   }, [conversation])
 
   return (
-    <div className={`flex ${isLoadingAI ? 'scrollbar-hide' : 'h-dvh scrollbar-hide'} flex-col`}>
+    <div className={`flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <motion.header
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
