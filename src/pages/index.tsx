@@ -1,14 +1,14 @@
-import { motion } from 'framer-motion'
-import { Avatar, Button, Input, Textarea } from '@nextui-org/react'
-import { ArrowLeft2, Refresh2, Send2 } from 'iconsax-react'
-import { ChangeEvent, useRef, useState, useEffect } from 'react'
+import { PrimaryButton } from '@/components/Buttons'
 import ImageFallback from '@/components/ImageFallback'
+import { keyPossmessage } from '@/constants'
+import AILoading from '@/modules/AILoading'
 import { ButtonOnlyIcon } from '@/modules/Buttons'
 import { TypewriterEffect } from '@/modules/TypewriterEffect'
 import { postMessageCustom } from '@/utils'
-import { keyPossmessage } from '@/constants'
-import AILoading from '@/modules/AILoading'
-import { PrimaryButton } from '@/components/Buttons'
+import { Button, Input } from '@nextui-org/react'
+import { motion } from 'framer-motion'
+import { ArrowLeft2, Refresh2, Send2 } from 'iconsax-react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 type TConversation = {
   id: string
@@ -21,19 +21,26 @@ const Home = () => {
   const [isLoadingAI, setIsLoadingAI] = useState(true)
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
+  const [isTyping, setIsTyping] = useState(false)
 
   const sendRef = useRef<any>(null)
   const inputRef = useRef<any>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const isDisabled = !isTyping || !message?.length
+
   const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e?.target?.value)
+    if (conversation.length === 0) {
+      setIsTyping(true)
+    }
   }
 
   const handleSendMessage = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault() // Prevent default form submission behavior
-
+    if (isDisabled) return
+    setIsTyping(false)
     if (message.trim() === '') return
 
     const newConversation = {
@@ -53,7 +60,7 @@ const Home = () => {
         message: `Bot response to "${newConversation.message}"`,
         time: Date.now()
       }
-
+      setIsTyping(true)
       setConversation((prevConversation) => [...prevConversation, botResponse])
     }, 1000)
   }
@@ -61,12 +68,6 @@ const Home = () => {
   const handleReset = () => {
     setConversation([])
     setMessage('')
-  }
-
-  const isElementInView = (element: HTMLElement) => {
-    const rect = element.getBoundingClientRect()
-    console.log(rect.bottom <= window.innerHeight)
-    return rect.bottom <= window.innerHeight
   }
 
   useEffect(() => {
@@ -90,10 +91,7 @@ const Home = () => {
   useEffect(() => {
     if (!bottomRef.current) return
 
-    const shouldScroll = !isElementInView(bottomRef.current)
-    // if (shouldScroll) {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' })
-    // }
   }, [conversation])
 
   return (
@@ -136,7 +134,7 @@ const Home = () => {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
-        {conversation?.length > 20 ? (
+        {conversation?.length > 15 ? (
           <div className='p-4'>
             <IndustryItem />
           </div>
@@ -169,7 +167,7 @@ const Home = () => {
                       handleSendMessage()
                     }}
                   >
-                    <Send2 variant='Bold' className={`${message?.length > 0 ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
+                    <Send2 variant='Bold' className={`${message?.length > 0 || !isDisabled ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
                   </Button>
                 }
                 classNames={{
