@@ -171,7 +171,7 @@ const Home = () => {
                       handleSendMessage()
                     }}
                   >
-                    <Send2 variant='Bold' className={`${message?.length > 0 || !isDisabled ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
+                    <Send2 variant='Bold' className={`${!isDisabled ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
                   </Button>
                 }
                 classNames={{
