@@ -21,17 +21,14 @@ const Home = () => {
   const [isLoadingAI, setIsLoadingAI] = useState(true)
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
-  const [isChating, setIsChating] = useState(false)
 
   const sendRef = useRef<any>(null)
   const inputRef = useRef<any>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e?.target?.value)
-    if (e?.target?.value === '') setIsChating(false)
-
-    setIsChating(true)
   }
 
   const handleSendMessage = (e?: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,6 +63,11 @@ const Home = () => {
     setMessage('')
   }
 
+  const isElementInView = (element: HTMLElement) => {
+    const rect = element.getBoundingClientRect()
+    return rect.bottom <= window.innerHeight
+  }
+
   useEffect(() => {
     const inputEl: any = inputRef.current
 
@@ -85,7 +87,12 @@ const Home = () => {
   }, [sendRef, inputRef, message])
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (!bottomRef.current) return
+
+    const shouldScroll = !isElementInView(bottomRef.current)
+    if (shouldScroll) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }, [conversation])
 
   return (
@@ -105,7 +112,7 @@ const Home = () => {
           <Refresh2 className='text-primary-yellow' onClick={handleReset} />
         </ButtonOnlyIcon>
       </motion.header>
-      <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
+      <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`} ref={containerRef}>
         {isLoadingAI ? (
           <AILoading handleTimeEnd={() => setIsLoadingAI(false)} />
         ) : conversation?.length > 0 ? (
@@ -128,7 +135,7 @@ const Home = () => {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
-        {conversation?.length > 20 ? (
+        {conversation?.length > 10 ? (
           <div className='p-4'>
             <IndustryItem />
           </div>
@@ -154,7 +161,6 @@ const Home = () => {
                   <Button
                     ref={sendRef}
                     isIconOnly
-                    isDisabled={!isChating}
                     radius='full'
                     className='m-2 flex items-center justify-center bg-transparent'
                     onClick={(e) => {
