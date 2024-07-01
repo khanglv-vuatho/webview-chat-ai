@@ -24,17 +24,20 @@ export const PrimaryButton = ({ className, isLoading, isDisabled, children, ...p
     <div className='relative w-full'>
       <Button
         className={twMerge(
-          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} bg-primary-blue font-bold text-white data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 ${isLoading ? 'translate-y-1' : ''} ${isDisabled ? 'cursor-not-allowed' : ''}`,
+          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} font-bold text-white data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 ${isLoading ? 'translate-y-1' : ''} ${isDisabled ? 'cursor-not-allowed' : ''}`,
           className
         )}
         isDisabled={isDisabled}
         isLoading={isLoading}
-        onClick={handlePhoneVibration}
+        onPress={(e) => {
+          handlePhoneVibration()
+          props?.onPress?.(e)
+        }}
         {...props}
       >
         {children}
       </Button>
-      <div className={`absolute inset-0 z-[-10] translate-y-1 ${radiusClass} ${isDisabled ? '' : 'bg-[#2B2A4C]'}`} />
+      <div className={`absolute inset-0 z-[-10] translate-y-1 ${radiusClass} ${isDisabled ? '' : ''}`} />
     </div>
   )
 }
@@ -50,7 +53,10 @@ export const PrimaryOutlineButton = ({ className, isDisabled, isLoading, childre
         )}
         isDisabled={isDisabled}
         isLoading={isLoading}
-        onClick={handlePhoneVibration}
+        onPress={(e) => {
+          handlePhoneVibration()
+          props?.onPress?.(e)
+        }}
         {...props}
       >
         {children}
@@ -64,7 +70,14 @@ export const PrimaryLightButton = ({ className, children, ...props }: Props) => 
   const radiusClass = getRadiusClass(className || '')
 
   return (
-    <Button onClick={handlePhoneVibration} className={twMerge(`${radiusClass} select-none bg-primary-light-blue font-bold text-primary-blue`, className)} {...props}>
+    <Button
+      onPress={(e) => {
+        handlePhoneVibration()
+        props?.onPress?.(e)
+      }}
+      className={twMerge(`${radiusClass} select-none bg-primary-light-blue font-bold text-primary-blue`, className)}
+      {...props}
+    >
       {children}
     </Button>
   )

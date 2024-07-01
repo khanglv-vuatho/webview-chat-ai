@@ -8,6 +8,7 @@ import { TypewriterEffect } from '@/modules/TypewriterEffect'
 import { postMessageCustom } from '@/utils'
 import { keyPossmessage } from '@/constants'
 import AILoading from '@/modules/AILoading'
+import { PrimaryButton } from '@/components/Buttons'
 
 type TConversation = {
   id: string
@@ -124,7 +125,7 @@ const Home = () => {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
-        {conversation?.length > 5 ? (
+        {conversation?.length > 10 ? (
           <div className='p-4'>
             <IndustryItem />
           </div>
@@ -162,7 +163,7 @@ const Home = () => {
                 }
                 classNames={{
                   innerWrapper: 'items-end',
-                  input: 'text-sm font-light text-primary-gray placeholder:pl-1',
+                  input: 'text-sm text-primary-base placeholder:pl-1',
                   inputWrapper:
                     'p-1 min-h-14 border-none bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent group-data-[focus-visible=true]:ring-0 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-0 group-data-[focus-visible=true]:ring-offset-background'
                 }}
@@ -226,7 +227,7 @@ const IndustryItem = () => {
         <p className='text-primary-green'>90% đúng giá thị trường</p>
       </div>
       <p className='text-sm'>Xe máy của anh đẹp trai có vấn đề lớn lắm không ta, chắc là không đâu</p>
-      <Button className='h-11 rounded-full bg-primary-yellow font-bold'>Tìm thợ</Button>
+      <PrimaryButton className='text-primary-base h-11 rounded-full bg-primary-yellow font-bold'>Tìm thợ</PrimaryButton>
     </div>
   )
 }
