@@ -107,18 +107,6 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    const preventDefault = (e: any) => {
-      e.preventDefault()
-    }
-
-    document.body.addEventListener('touchmove', preventDefault, { passive: false })
-
-    // Cleanup function to remove the event listener
-    return () => {
-      document.body.removeEventListener('touchmove', preventDefault)
-    }
-  }, [])
   return (
     <motion.div style={{ x }} className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <motion.div

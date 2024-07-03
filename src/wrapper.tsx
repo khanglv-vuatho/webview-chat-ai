@@ -62,7 +62,18 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+  useEffect(() => {
+    const preventDefault = (e: any) => {
+      e.preventDefault()
+    }
 
+    document.body.addEventListener('touchmove', preventDefault, { passive: false })
+
+    // Cleanup function to remove the event listener
+    return () => {
+      document.body.removeEventListener('touchmove', preventDefault)
+    }
+  }, [])
   return <TranslationProvider lang={lang}>{children}</TranslationProvider>
 }
 
