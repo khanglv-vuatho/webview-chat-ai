@@ -225,7 +225,7 @@ const MessageItem = ({ msg, id, onComplete }: { id: string; msg: string; onCompl
                   }
                 }
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.1 }}
         viewport={{ once: true }}
         className={`max-w-[80%] break-words rounded-lg p-2 px-3 ${id === 'bot' ? 'relative bg-primary-light-gray' : 'bg-[#FFFAEA]'}`}
       >
