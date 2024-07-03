@@ -63,29 +63,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     }
   }, [])
 
-  useEffect(() => {
-    const preventDefault = (e: any) => {
-      // Check if the event target is within the scrollable element
-      const scrollableElement = document.querySelector('.scrollable-element')
-      if (scrollableElement && scrollableElement.contains(e.target)) {
-        return // Allow scroll within the scrollable element
-      }
-      e.preventDefault() // Prevent scroll on body
-    }
-
-    document.body.addEventListener('touchmove', preventDefault, { passive: false })
-
-    // Cleanup function to remove the event listener
-    return () => {
-      document.body.removeEventListener('touchmove', preventDefault)
-    }
-  }, [])
-
-  return (
-    <TranslationProvider lang={lang}>
-      <div className='scrollable-element'>{children}</div>
-    </TranslationProvider>
-  )
+  return <TranslationProvider lang={lang}>{children}</TranslationProvider>
 }
 
 export default Wrapper
