@@ -1,7 +1,23 @@
 import { motion } from 'framer-motion'
+import { useEffect } from 'react'
 
-export const TypewriterEffect = ({ words }: { words: string }) => {
+export const TypewriterEffect = ({ words, onComplete }: { words: string; onComplete?: () => void }) => {
   const word = words.split('')
+
+  const time = word.map((item, index) => {
+    const delay = (index + 1) * 0.01 * item.length + 0.3
+    return item.length * 0.05 + delay
+  })
+  const lastTime = time[time.length - 1] // Retrieve the last element from the time array
+
+  useEffect(() => {
+    if (!onComplete) return
+    const timer = setTimeout(() => {
+      onComplete?.()
+    }, lastTime * 1000)
+
+    return () => clearTimeout(timer)
+  }, [onComplete, lastTime])
 
   return word.map((item, index) => {
     return (

@@ -21,10 +21,10 @@ export function getRadiusClass(classString: string) {
 export const PrimaryButton = ({ className, isLoading, isDisabled, children, ...props }: Props) => {
   const radiusClass = getRadiusClass(className || '')
   return (
-    <div className='relative w-full'>
+    <div className='relative z-50 w-full'>
       <Button
         className={twMerge(
-          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} font-bold text-white data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 ${isLoading ? 'translate-y-1' : ''} ${isDisabled ? 'cursor-not-allowed' : ''}`,
+          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} bg-primary-yellow font-bold text-white data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 ${isLoading ? 'translate-y-1' : ''} ${isDisabled ? 'cursor-not-allowed' : ''}`,
           className
         )}
         isDisabled={isDisabled}
@@ -37,7 +37,7 @@ export const PrimaryButton = ({ className, isLoading, isDisabled, children, ...p
       >
         {children}
       </Button>
-      <div className={`absolute inset-0 z-[-10] translate-y-1 ${radiusClass} ${isDisabled ? '' : ''}`} />
+      <div className={`absolute inset-0 z-[10] translate-y-1 bg-[#C69306] ${radiusClass} ${isDisabled ? '' : ''}`} />
     </div>
   )
 }
@@ -45,10 +45,10 @@ export const PrimaryOutlineButton = ({ className, isDisabled, isLoading, childre
   const radiusClass = getRadiusClass(className || '')
 
   return (
-    <div className='relative w-full'>
+    <div className='relative z-50 w-full'>
       <Button
         className={twMerge(
-          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} border border-primary-blue bg-transparent bg-white font-bold text-primary-blue data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 ${isLoading ? 'translate-y-1' : ''}`,
+          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} border border-primary-yellow bg-white font-bold text-primary-yellow data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 ${isLoading ? 'translate-y-1' : ''}`,
           className
         )}
         isDisabled={isDisabled}
@@ -61,7 +61,7 @@ export const PrimaryOutlineButton = ({ className, isDisabled, isLoading, childre
       >
         {children}
       </Button>
-      <div className={`absolute inset-0 z-[-10] translate-y-1 ${radiusClass} ${isDisabled ? '' : 'bg-primary-blue/80'}`} />
+      <div className={`absolute inset-0 z-[-10] translate-y-1 ${radiusClass} ${isDisabled ? '' : 'bg-primary-yellow/80'}`} />
     </div>
   )
 }

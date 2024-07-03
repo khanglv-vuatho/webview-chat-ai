@@ -5,6 +5,9 @@
 html {
   font-family: 'Inter', sans-serif;
 }
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
 body {
   @apply text-primary-black;
 }
