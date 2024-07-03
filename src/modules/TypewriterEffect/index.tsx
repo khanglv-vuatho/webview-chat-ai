@@ -5,7 +5,7 @@ export const TypewriterEffect = ({ words, onComplete }: { words: string; onCompl
   const word = words.split('')
 
   const time = word.map((item, index) => {
-    const delay = (index + 1) * 0.01 * item.length + 0.3
+    const delay = (index + 1) * 0.01 * item.length + 0.25
     return item.length * 0.05 + delay
   })
   const lastTime = time[time.length - 1] // Retrieve the last element from the time array

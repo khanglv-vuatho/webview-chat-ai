@@ -58,7 +58,6 @@ const Home = () => {
         message: `Bot response to "${newConversation.message}"`,
         time: Date.now()
       }
-
       setConversation((prevConversation) => [...prevConversation, botResponse])
     }, 1000)
   }
@@ -213,16 +212,16 @@ const MessageItem = ({ msg, id, onComplete }: { id: string; msg: string; onCompl
           transition:
             id === 'bot'
               ? {
-                  duration: 0.1
+                  duration: 0.05
                 }
               : {
                   x: {
-                    delay: 0.13,
+                    delay: 0.1,
                     type: 'tween',
                     stiffness: 100
                   },
                   y: {
-                    duration: 0.1
+                    duration: 0.05
                   }
                 }
         }}
