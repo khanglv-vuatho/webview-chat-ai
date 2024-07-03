@@ -216,7 +216,7 @@ const MessageItem = ({ msg, id, onComplete }: { id: string; msg: string; onCompl
                 }
               : {
                   x: {
-                    delay: 0.1,
+                    delay: 0.05,
                     type: 'tween',
                     stiffness: 100
                   },
