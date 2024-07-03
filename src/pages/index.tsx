@@ -6,7 +6,7 @@ import { ButtonOnlyIcon } from '@/modules/Buttons'
 import { TypewriterEffect } from '@/modules/TypewriterEffect'
 import { postMessageCustom } from '@/utils'
 import { Button, Input, Textarea } from '@nextui-org/react'
-import { motion } from 'framer-motion'
+import { MotionValue, motion, useDragControls, useMotionValue } from 'framer-motion'
 import { ArrowLeft2, Refresh2, Send2 } from 'iconsax-react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
@@ -98,8 +98,25 @@ const Home = () => {
     bottomRef?.current?.scrollIntoView({ behavior: 'smooth' })
   }, [bottomRef, conversation])
 
+  const x = useMotionValue(0)
+  const controls = useDragControls()
+
+  const handleDragEnd = (e: any) => {
+    if (x.get() > 60) {
+      postMessageCustom({ message: keyPossmessage.CAN_POP })
+    }
+  }
   return (
-    <div className={`flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
+    <motion.div style={{ x }} className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
+      <motion.div
+        drag='x'
+        style={{ x }}
+        onPointerDown={(e) => controls.start(e)}
+        dragControls={controls}
+        dragConstraints={{ left: 0, right: 0 }}
+        onDragEnd={handleDragEnd}
+        className='absolute bottom-0 left-0 top-0 h-full w-[20px] bg-red-200'
+      />
       <motion.header
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -195,7 +212,7 @@ const Home = () => {
           </div>
         )}
       </motion.div>
-    </div>
+    </motion.div>
   )
 }
 
