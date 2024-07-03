@@ -62,9 +62,15 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
   useEffect(() => {
     const preventDefault = (e: any) => {
-      e.preventDefault()
+      // Check if the event target is within the scrollable element
+      const scrollableElement = document.querySelector('.scrollable-element')
+      if (scrollableElement && scrollableElement.contains(e.target)) {
+        return // Allow scroll within the scrollable element
+      }
+      e.preventDefault() // Prevent scroll on body
     }
 
     document.body.addEventListener('touchmove', preventDefault, { passive: false })
@@ -74,7 +80,12 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
       document.body.removeEventListener('touchmove', preventDefault)
     }
   }, [])
-  return <TranslationProvider lang={lang}>{children}</TranslationProvider>
+
+  return (
+    <TranslationProvider lang={lang}>
+      <div className='scrollable-element'>{children}</div>
+    </TranslationProvider>
+  )
 }
 
 export default Wrapper
