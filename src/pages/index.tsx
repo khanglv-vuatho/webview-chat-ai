@@ -106,6 +106,19 @@ const Home = () => {
       postMessageCustom({ message: keyPossmessage.CAN_POP })
     }
   }
+
+  useEffect(() => {
+    const preventDefault = (e: any) => {
+      e.preventDefault()
+    }
+
+    document.body.addEventListener('touchmove', preventDefault, { passive: false })
+
+    // Cleanup function to remove the event listener
+    return () => {
+      document.body.removeEventListener('touchmove', preventDefault)
+    }
+  }, [])
   return (
     <motion.div style={{ x }} className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <motion.div
@@ -115,7 +128,7 @@ const Home = () => {
         dragControls={controls}
         dragConstraints={{ left: 0, right: 0 }}
         onDragEnd={handleDragEnd}
-        className='absolute bottom-0 left-0 top-0 h-full w-[20px] bg-red-200'
+        className='absolute bottom-0 left-0 top-0 z-50 h-full w-[20px] bg-red-200'
       />
       <motion.header
         initial={{ opacity: 0, y: -100 }}
