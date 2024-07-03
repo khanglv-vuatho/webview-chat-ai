@@ -94,6 +94,10 @@ const Home = () => {
     }
   }, [sendRef, inputRef, message])
 
+  useEffect(() => {
+    bottomRef?.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [bottomRef, conversation])
+
   return (
     <div className={`flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <motion.header
@@ -141,7 +145,7 @@ const Home = () => {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
-        {conversation?.length > 9 && !isBotResponding ? (
+        {conversation?.length > 100 && !isBotResponding ? (
           <div className='p-4'>
             <IndustryItem />
           </div>
@@ -212,20 +216,21 @@ const MessageItem = ({ msg, id, onComplete }: { id: string; msg: string; onCompl
           transition:
             id === 'bot'
               ? {
-                  duration: 0.05
+                  duration: 0.1
                 }
               : {
                   x: {
-                    delay: 0.05,
+                    delay: 0.1,
                     type: 'tween',
-                    stiffness: 100
+                    stiffness: 100,
+                    duration: 0.18
                   },
                   y: {
-                    duration: 0.05
+                    duration: 0.1
                   }
                 }
         }}
-        transition={{ duration: 0.1 }}
+        transition={{ duration: 0.3 }}
         viewport={{ once: true }}
         className={`max-w-[80%] break-words rounded-lg p-2 px-3 ${id === 'bot' ? 'relative bg-primary-light-gray' : 'bg-[#FFFAEA]'}`}
       >
