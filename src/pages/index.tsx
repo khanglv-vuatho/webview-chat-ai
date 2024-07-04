@@ -102,12 +102,12 @@ const Home = () => {
   }, [bottomRef, conversation, isFocus, inputRef])
 
   return (
-    <motion.div initial={{ x: 0 }} animate={{ x: 0 }} className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col pt-[72px]`}>
+    <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <motion.header
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 1.5 }}
-        className='fixed left-0 right-0 top-0 flex items-center justify-between bg-white p-4'
+        className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4'
         style={{ zIndex: 10 }}
       >
         <ButtonOnlyIcon onPress={() => postMessageCustom({ message: keyPossmessage.CAN_POP })}>
@@ -199,7 +199,7 @@ const Home = () => {
           </div>
         )}
       </motion.div>
-    </motion.div>
+    </div>
   )
 }
 
