@@ -63,7 +63,11 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     }
   }, [])
 
-  return <TranslationProvider lang={lang}>{children}</TranslationProvider>
+  return (
+    <TranslationProvider lang={lang}>
+      <div className='overscroll-none'>{children}</div>
+    </TranslationProvider>
+  )
 }
 
 export default Wrapper
