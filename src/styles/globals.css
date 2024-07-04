@@ -9,5 +9,5 @@ html {
   font-family: 'Inter', sans-serif;
 }
 body {
-  @apply text-primary-black;
+  @apply overscroll-none scroll-smooth text-primary-black;
 }
