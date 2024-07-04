@@ -23,6 +23,7 @@ const Home = () => {
   const [isBotResponding, setIsBotResponding] = useState(false)
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
+  const [isFocus, setIsFocus] = useState(false)
 
   const sendRef = useRef<any>(null)
   const inputRef = useRef<any>(null)
@@ -82,8 +83,10 @@ const Home = () => {
     const handleBlur = (e: any) => {
       if (!sendEl.contains(e.relatedTarget)) {
         inputRef?.current?.blur()
+        setIsFocus(false)
       } else {
         inputEl?.focus()
+        setIsFocus(true)
       }
     }
 
@@ -96,14 +99,14 @@ const Home = () => {
 
   useEffect(() => {
     bottomRef?.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [bottomRef, conversation])
+  }, [bottomRef, conversation, isFocus])
 
   return (
     <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col pt-[72px]`}>
-      <header
-        // initial={{ opacity: 0, y: -100 }}
-        // animate={{ opacity: 1, y: 0 }}
-        // transition={{ duration: 0.5, delay: 1.5 }}
+      <motion.header
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 1.5 }}
         className='fixed left-0 right-0 top-0 flex items-center justify-between bg-white p-4'
         style={{ zIndex: 10 }}
       >
@@ -114,7 +117,7 @@ const Home = () => {
         <ButtonOnlyIcon>
           <Refresh2 className='text-primary-yellow' onClick={handleReset} />
         </ButtonOnlyIcon>
-      </header>
+      </motion.header>
       <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
         {isLoadingAI ? (
           <AILoading handleTimeEnd={handleTimeEnd} />
@@ -144,8 +147,7 @@ const Home = () => {
         )}
       </div>
 
-      {/* <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'> */}
-      <div className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
+      <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
         {conversation?.length > 100 && !isBotResponding ? (
           <div className='p-4'>
             <IndustryItem />
@@ -161,6 +163,7 @@ const Home = () => {
                 ref={inputRef}
                 value={message}
                 onChange={handleChangeValue}
+                onFocus={() => setIsFocus(true)}
                 radius='none'
                 placeholder='Nhập tin nhắn'
                 endContent={
@@ -195,7 +198,7 @@ const Home = () => {
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }
