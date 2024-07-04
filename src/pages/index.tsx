@@ -102,7 +102,7 @@ const Home = () => {
   }, [bottomRef, conversation, isFocus, inputRef])
 
   return (
-    <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col pt-[72px]`}>
+    <motion.div initial={{ x: 0 }} animate={{ x: 0 }} className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col pt-[72px]`}>
       <motion.header
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -199,7 +199,7 @@ const Home = () => {
           </div>
         )}
       </motion.div>
-    </div>
+    </motion.div>
   )
 }
 
