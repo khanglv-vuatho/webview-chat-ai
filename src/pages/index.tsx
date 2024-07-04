@@ -1,12 +1,12 @@
-import { PrimaryButton, PrimaryOutlineButton } from '@/components/Buttons'
+import { PrimaryButton } from '@/components/Buttons'
 import ImageFallback from '@/components/ImageFallback'
 import { keyPossmessage } from '@/constants'
 import AILoading from '@/modules/AILoading'
 import { ButtonOnlyIcon } from '@/modules/Buttons'
 import { TypewriterEffect } from '@/modules/TypewriterEffect'
 import { postMessageCustom } from '@/utils'
-import { Button, Input, Textarea } from '@nextui-org/react'
-import { MotionValue, motion, useDragControls, useMotionValue } from 'framer-motion'
+import { Button, Textarea } from '@nextui-org/react'
+import { motion } from 'framer-motion'
 import { ArrowLeft2, Refresh2, Send2 } from 'iconsax-react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
@@ -98,26 +98,8 @@ const Home = () => {
     bottomRef?.current?.scrollIntoView({ behavior: 'smooth' })
   }, [bottomRef, conversation])
 
-  const x = useMotionValue(0)
-  const controls = useDragControls()
-
-  const handleDragEnd = (e: any) => {
-    if (x.get() > 60) {
-      postMessageCustom({ message: keyPossmessage.CAN_POP })
-    }
-  }
-
   return (
-    <motion.div style={{ x }} className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
-      <motion.div
-        drag='x'
-        style={{ x }}
-        onPointerDown={(e) => controls.start(e)}
-        dragControls={controls}
-        dragConstraints={{ left: 0, right: 0 }}
-        onDragEnd={handleDragEnd}
-        className='absolute bottom-0 left-0 top-0 z-50 h-full w-[20px] bg-red-200'
-      />
+    <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <motion.header
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -162,7 +144,7 @@ const Home = () => {
         )}
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
+      <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{}} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
         {conversation?.length > 100 && !isBotResponding ? (
           <div className='p-4'>
             <IndustryItem />
@@ -213,7 +195,7 @@ const Home = () => {
           </div>
         )}
       </motion.div>
-    </motion.div>
+    </div>
   )
 }
 

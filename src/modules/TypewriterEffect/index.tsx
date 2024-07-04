@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 export const TypewriterEffect = ({ words, onComplete }: { words: string; onComplete?: () => void }) => {
   const word = words.split('')
@@ -8,7 +8,7 @@ export const TypewriterEffect = ({ words, onComplete }: { words: string; onCompl
     const delay = (index + 1) * 0.01 * item.length + 0.1
     return item.length * 0.05 + delay
   })
-  const lastTime = time[time.length - 1] // Retrieve the last element from the time array
+  const lastTime = time[time.length - 1]
 
   useEffect(() => {
     if (!onComplete) return
