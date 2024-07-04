@@ -99,7 +99,7 @@ const Home = () => {
 
   useEffect(() => {
     bottomRef?.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [bottomRef, conversation, isFocus])
+  }, [bottomRef, conversation, isFocus, inputRef])
 
   return (
     <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col pt-[72px]`}>
