@@ -23,10 +23,12 @@ export const TypewriterEffect = ({ words, onComplete }: { words: string; onCompl
     return (
       <motion.span
         initial={{
-          position: 'fixed'
+          position: 'fixed',
+          opacity: 0
         }}
         animate={{
-          position: 'static'
+          position: 'static',
+          opacity: 1
         }}
         transition={{
           duration: 0.05,
