@@ -42,11 +42,17 @@ const Header: React.FC<HeaderProps> = ({ handleReset, conversation }) => {
         className='sticky left-0 right-0 top-0 flex items-center justify-between bg-white p-4'
         style={{ zIndex: 10 }}
       >
-        <ButtonOnlyIcon onPress={() => postMessageCustom({ message: keyPossmessage.CAN_POP })}>
+        <ButtonOnlyIcon
+          onPress={() => postMessageCustom({ message: keyPossmessage.CAN_POP })}
+          className='group relative z-0 box-border inline-flex h-10 w-fit min-w-10 select-none appearance-none items-center justify-center overflow-hidden whitespace-nowrap rounded-full bg-transparent px-0 text-small font-normal text-default-foreground subpixel-antialiased outline-none tap-highlight-transparent transition-transform-colors-opacity data-[focus-visible=true]:z-10 data-[pressed=true]:scale-[0.97] data-[hover=true]:opacity-hover data-[focus-visible=true]:outline-none data-[focus-visible=true]:outline-offset-0 motion-reduce:transition-none'
+        >
           <ArrowLeft2 />
         </ButtonOnlyIcon>
         <p className='justify-between text-center text-base font-bold'>AI Vua thợ</p>
-        <ButtonOnlyIcon className={isHasMessage ? 'opacity-100' : 'opacity-0'} onPress={handleClick}>
+        <ButtonOnlyIcon
+          className={`group relative z-0 box-border inline-flex h-10 w-fit min-w-10 select-none appearance-none items-center justify-center overflow-hidden whitespace-nowrap rounded-full bg-transparent px-0 text-small font-normal text-default-foreground subpixel-antialiased outline-none tap-highlight-transparent transition-transform-colors-opacity data-[focus-visible=true]:z-10 data-[pressed=true]:scale-[0.97] data-[hover=true]:opacity-hover data-[focus-visible=true]:outline-none data-[focus-visible=true]:outline-offset-0 motion-reduce:transition-none ${isHasMessage ? 'opacity-100' : 'opacity-0'}`}
+          onPress={handleClick}
+        >
           <Refresh2 className='text-primary-yellow' />
         </ButtonOnlyIcon>
       </motion.header>

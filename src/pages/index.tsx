@@ -5,7 +5,7 @@ import FooterInput from '@/modules/FooterInput'
 import Header from '@/modules/Header'
 import TypewriterEffect from '@/modules/TypewriterEffect'
 import { TConversation } from '@/types'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const words = 'Xin chào! Hãy cho tôi biết bạn đang cần người thợ như thế nào?'
 
