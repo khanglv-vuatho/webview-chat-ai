@@ -15,7 +15,6 @@ const Home = () => {
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
 
-  const sendRef = useRef<any>(null)
   const inputRef = useRef<any>(null)
 
   const isDisabled = message.trim() === '' || isBotResponding
@@ -68,28 +67,6 @@ const Home = () => {
   const handleTimeEnd = useCallback(() => {
     setIsLoadingAI(false)
   }, [])
-
-  useEffect(() => {
-    const inputEl: any = inputRef?.current
-    const sendEl = sendRef.current
-
-    if (!inputEl) return
-    if (!sendEl) return
-
-    const handleBlur = (e: any) => {
-      if (!sendEl.contains(e.relatedTarget)) {
-        inputRef?.current?.blur()
-      } else {
-        inputEl?.focus()
-      }
-    }
-
-    inputEl?.addEventListener('blur', handleBlur)
-
-    return () => {
-      inputEl?.removeEventListener('blur', handleBlur)
-    }
-  }, [sendRef, inputRef, message])
 
   return (
     <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import IndustryItem from '../IndustryItem'
 import { Button, Textarea } from '@nextui-org/react'
 import { Send2 } from 'iconsax-react'
-import { ChangeEvent, memo, useRef } from 'react'
+import { ChangeEvent, memo, useEffect, useRef } from 'react'
 import { TConversation } from '@/types'
 
 type FooterInputType = {
@@ -15,13 +15,31 @@ type FooterInputType = {
 }
 
 const FooterInput: React.FC<FooterInputType> = ({ conversation, isBotResponding, message, handleChangeValue, handleSendMessage, isDisabled }) => {
-  const sendRef = useRef<HTMLButtonElement>(null)
+  const sendRef: any = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const handleSend = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     handleSendMessage()
   }
+
+  useEffect(() => {
+    const inputEl: any = inputRef.current
+
+    const handleBlur = (e: any) => {
+      if (!sendRef?.current.contains(e.relatedTarget)) {
+        inputRef?.current?.blur()
+      } else {
+        inputEl.focus() // Focus lại vào input nếu không phải click vào sendRef
+      }
+    }
+
+    inputEl?.addEventListener('blur', handleBlur)
+
+    return () => {
+      inputEl?.removeEventListener('blur', handleBlur)
+    }
+  }, [sendRef, inputRef, message])
 
   return (
     <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.5 }} className='sticky bottom-0 left-0 right-0 flex flex-col gap-2'>
