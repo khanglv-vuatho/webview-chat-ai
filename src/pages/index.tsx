@@ -5,7 +5,7 @@ import FooterInput from '@/modules/FooterInput'
 import Header from '@/modules/Header'
 import TypewriterEffect from '@/modules/TypewriterEffect'
 import { TConversation } from '@/types'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 
 const words = 'Xin chào! Hãy cho tôi biết bạn đang cần người thợ như thế nào?'
 
@@ -20,47 +20,54 @@ const Home = () => {
 
   const isDisabled = message.trim() === '' || isBotResponding
 
-  const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-    e?.preventDefault()
-    setMessage(e?.target?.value)
-    if (conversation.length === 0) {
-    }
-  }
+  const handleChangeValue = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault()
+      setMessage(e.target.value)
+      if (conversation.length === 0) {
+        // Your logic here
+      }
+    },
+    [conversation.length]
+  )
 
-  const handleSendMessage = (e?: React.MouseEvent<HTMLButtonElement>) => {
-    if (isDisabled) return
-    e?.preventDefault()
-    setIsBotResponding(true)
+  const handleSendMessage = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      if (isDisabled) return
+      e?.preventDefault()
+      setIsBotResponding(true)
 
-    const newConversation = {
-      id: 'user',
-      message,
-      time: Date.now()
-    }
-
-    setConversation((prevConversation) => [...prevConversation, newConversation])
-    setMessage('')
-    inputRef?.current?.focus()
-
-    setTimeout(() => {
-      const botResponse = {
-        id: 'bot',
-        message: `Bot response to "${newConversation.message}"`,
+      const newConversation = {
+        id: 'user',
+        message,
         time: Date.now()
       }
-      setConversation((prevConversation) => [...prevConversation, botResponse])
-    }, 1000)
-  }
 
-  const handleReset = () => {
+      setConversation((prevConversation) => [...prevConversation, newConversation])
+      setMessage('')
+      inputRef?.current?.focus()
+
+      setTimeout(() => {
+        const botResponse = {
+          id: 'bot',
+          message: `Bot response to "${newConversation.message}"`,
+          time: Date.now()
+        }
+        setConversation((prevConversation) => [...prevConversation, botResponse])
+      }, 1000)
+    },
+    [isDisabled, message]
+  )
+
+  const handleReset = useCallback(() => {
     setConversation([])
     setMessage('')
     setIsBotResponding(false)
-  }
+  }, [])
 
-  const handleTimeEnd = () => {
+  const handleTimeEnd = useCallback(() => {
     setIsLoadingAI(false)
-  }
+  }, [])
 
   useEffect(() => {
     const inputEl: any = inputRef?.current
