@@ -1,7 +1,7 @@
 'use client'
 
 import { Image, ImageProps } from '@nextui-org/react'
-import { useState, forwardRef, Ref } from 'react'
+import { useState, forwardRef, Ref, memo } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface ImageFallbackProps extends ImageProps {
@@ -16,4 +16,4 @@ const ImageFallback = forwardRef(({ src, alt, className, ...props }: ImageFallba
   return <Image removeWrapper className={twMerge('pointer-events-none select-none rounded-none', className)} ref={ref} src={fallback} onError={_onError.bind(this)} alt={alt} {...props} />
 })
 
-export default ImageFallback
+export default memo(ImageFallback)

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import IndustryItem from '../IndustryItem'
 import { Button, Textarea } from '@nextui-org/react'
 import { Send2 } from 'iconsax-react'
-import { ChangeEvent, useRef } from 'react'
+import { ChangeEvent, memo, useRef } from 'react'
 import { TConversation } from '@/types'
 
 type FooterInputType = {
@@ -62,4 +62,4 @@ const FooterInput: React.FC<FooterInputType> = ({ conversation, isBotResponding,
   )
 }
 
-export default FooterInput
+export default memo(FooterInput)

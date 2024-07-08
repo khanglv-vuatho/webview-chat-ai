@@ -1,12 +1,13 @@
 import { motion, MotionValue } from 'framer-motion'
 import ImageFallback from '../../components/ImageFallback'
+import { memo } from 'react'
 
 const transition = {
   duration: 0,
   ease: 'linear'
 }
 
-export const GoogleGeminiEffect = ({ pathLengths }: { pathLengths: MotionValue[] }) => {
+const GoogleGeminiEffect = ({ pathLengths }: { pathLengths: MotionValue[] }) => {
   return (
     <div className='relative w-full'>
       <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
@@ -132,3 +133,5 @@ export const GoogleGeminiEffect = ({ pathLengths }: { pathLengths: MotionValue[]
     </div>
   )
 }
+
+export default memo(GoogleGeminiEffect)

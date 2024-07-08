@@ -3,9 +3,8 @@ import AILoading from '@/modules/AILoading'
 import Conversation from '@/modules/Conversation'
 import FooterInput from '@/modules/FooterInput'
 import Header from '@/modules/Header'
-import { TypewriterEffect } from '@/modules/TypewriterEffect'
+import TypewriterEffect from '@/modules/TypewriterEffect'
 import { TConversation } from '@/types'
-import { motion } from 'framer-motion'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 const words = 'Xin chào! Hãy cho tôi biết bạn đang cần người thợ như thế nào?'
@@ -87,7 +86,7 @@ const Home = () => {
 
   return (
     <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
-      <Header handleReset={handleReset} />
+      <Header handleReset={handleReset} conversation={conversation} />
       <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
         {isLoadingAI ? (
           <AILoading handleTimeEnd={handleTimeEnd} />

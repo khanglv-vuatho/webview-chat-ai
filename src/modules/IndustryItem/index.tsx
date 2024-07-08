@@ -1,5 +1,5 @@
 import { PrimaryButton } from '@/components/Buttons'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 
 const IndustryItem = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -13,11 +13,11 @@ const IndustryItem = () => {
         <p className='text-primary-green'>90% đúng giá thị trường</p>
       </div>
       <p className='text-sm'>Xe máy của anh đẹp trai có vấn đề lớn lắm không ta, chắc là không đâu</p>
-      <PrimaryButton className='h-11 rounded-full font-bold' isLoading={isLoading} onClick={() => setIsLoading(true)}>
+      <PrimaryButton className='h-12 rounded-full font-bold' isLoading={isLoading} onClick={() => setIsLoading(true)}>
         Tìm thợ
       </PrimaryButton>
     </div>
   )
 }
 
-export default IndustryItem
+export default memo(IndustryItem)

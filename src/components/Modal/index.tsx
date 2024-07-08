@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { memo } from 'react'
 
 import { Modal, ModalContent, ModalBody, ModalProps } from '@nextui-org/react'
 import { twMerge } from 'tailwind-merge'
@@ -12,7 +12,7 @@ type DefaultModal = {
   className?: string
 } & ModalProps
 
-export const DefaultModal: React.FC<DefaultModal> = ({ isOpen, onOpenChange, children, className, ...props }) => {
+export const DefaultModal: React.FC<DefaultModal> = memo(({ isOpen, onOpenChange, children, className, ...props }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -28,4 +28,4 @@ export const DefaultModal: React.FC<DefaultModal> = ({ isOpen, onOpenChange, chi
       <ModalContent className={twMerge('mx-4 p-4', className)}>{() => <ModalBody>{children}</ModalBody>}</ModalContent>
     </Modal>
   )
-}
+})

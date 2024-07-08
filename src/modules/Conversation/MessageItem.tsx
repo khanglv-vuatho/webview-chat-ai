@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion'
 
 import ImageFallback from '@/components/ImageFallback'
-import { TypewriterEffect } from '../TypewriterEffect'
+import { memo } from 'react'
+import TypewriterEffect from '../TypewriterEffect'
 
 const MessageItem = ({ msg, id, onComplete }: { id: string; msg: string; onComplete?: () => void }) => {
   return (
@@ -50,4 +51,4 @@ const MessageItem = ({ msg, id, onComplete }: { id: string; msg: string; onCompl
   )
 }
 
-export default MessageItem
+export default memo(MessageItem)

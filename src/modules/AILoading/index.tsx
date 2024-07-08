@@ -1,6 +1,6 @@
 import { useMotionValue, useSpring } from 'framer-motion'
-import { useEffect } from 'react'
-import { GoogleGeminiEffect } from '../GoogleGeminiEffect'
+import { memo, useEffect } from 'react'
+import GoogleGeminiEffect from '../GoogleGeminiEffect'
 
 const AILoading = ({ handleTimeEnd }: { handleTimeEnd: () => void }) => {
   const value = useMotionValue(0)
@@ -23,4 +23,4 @@ const AILoading = ({ handleTimeEnd }: { handleTimeEnd: () => void }) => {
   )
 }
 
-export default AILoading
+export default memo(AILoading)

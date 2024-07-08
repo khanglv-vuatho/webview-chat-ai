@@ -6,15 +6,20 @@ import { ArrowLeft2, Refresh2 } from 'iconsax-react'
 import { DefaultModal } from '@/components/Modal'
 import ImageFallback from '@/components/ImageFallback'
 import { PrimaryButton, PrimaryOutlineButton } from '@/components/Buttons'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
+import { TConversation } from '@/types'
 
 type HeaderProps = {
   handleReset: () => void
+  conversation: TConversation[]
 }
-const Header: React.FC<HeaderProps> = ({ handleReset }) => {
+const Header: React.FC<HeaderProps> = ({ handleReset, conversation }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
+  const isHasMessage = conversation.length > 0
+
   const handleClick = () => {
+    if (!isHasMessage) return
     setIsOpen(true)
   }
 
@@ -40,9 +45,9 @@ const Header: React.FC<HeaderProps> = ({ handleReset }) => {
         <ButtonOnlyIcon onPress={() => postMessageCustom({ message: keyPossmessage.CAN_POP })}>
           <ArrowLeft2 />
         </ButtonOnlyIcon>
-        <p className='flex-1 justify-between text-center text-base font-bold'>AI Vua thợ</p>
-        <ButtonOnlyIcon>
-          <Refresh2 className='text-primary-yellow' onClick={handleClick} />
+        <p className='justify-between text-center text-base font-bold'>AI Vua thợ</p>
+        <ButtonOnlyIcon className={isHasMessage ? 'opacity-100' : 'opacity-0'} onPress={handleClick}>
+          <Refresh2 className='text-primary-yellow' />
         </ButtonOnlyIcon>
       </motion.header>
       <DefaultModal isOpen={isOpen} onOpenChange={() => {}}>
@@ -55,10 +60,10 @@ const Header: React.FC<HeaderProps> = ({ handleReset }) => {
           </div>
           <div className='text-center'>Xác nhận tạo mới cuộc trò chuyện</div>
           <div className='flex items-center gap-4'>
-            <PrimaryOutlineButton className='rounded-full' onPress={handleCancle}>
+            <PrimaryOutlineButton className='h-12 rounded-full' onPress={handleCancle}>
               Huỷ
             </PrimaryOutlineButton>
-            <PrimaryButton className='rounded-full' onPress={handleDelete}>
+            <PrimaryButton className='h-12 rounded-full' onPress={handleDelete}>
               Xác nhận
             </PrimaryButton>
           </div>
@@ -68,4 +73,4 @@ const Header: React.FC<HeaderProps> = ({ handleReset }) => {
   )
 }
 
-export default Header
+export default memo(Header)

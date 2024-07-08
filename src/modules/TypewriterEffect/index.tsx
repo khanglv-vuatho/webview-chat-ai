@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { useEffect, useMemo } from 'react'
+import { memo, useEffect, useMemo } from 'react'
 
-export const TypewriterEffect = ({ words, onComplete }: { words: string; onComplete?: () => void }) => {
+const TypewriterEffect = ({ words, onComplete }: { words: string; onComplete?: () => void }) => {
   const word = words.split('')
 
   const time = word.map((item, index) => {
@@ -42,3 +42,5 @@ export const TypewriterEffect = ({ words, onComplete }: { words: string; onCompl
     )
   })
 }
+
+export default memo(TypewriterEffect)

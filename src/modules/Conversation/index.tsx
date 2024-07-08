@@ -1,5 +1,5 @@
 import { TConversation } from '@/types'
-import { useEffect, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import MessageItem from './MessageItem'
 
 type ConversationType = {
@@ -31,4 +31,4 @@ const Conversation: React.FC<ConversationType> = ({ conversation, setIsBotRespon
   )
 }
 
-export default Conversation
+export default memo(Conversation)
