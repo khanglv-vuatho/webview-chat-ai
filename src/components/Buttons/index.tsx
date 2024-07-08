@@ -24,7 +24,7 @@ export const PrimaryButton = ({ className, isLoading, isDisabled, children, ...p
     <div className='relative z-50 w-full'>
       <Button
         className={twMerge(
-          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} group relative z-0 box-border inline-flex h-10 w-fit min-w-10 select-none appearance-none items-center justify-center overflow-hidden whitespace-nowrap rounded-full bg-primary-yellow bg-transparent px-0 text-small text-white subpixel-antialiased outline-none tap-highlight-transparent transition-transform-colors-opacity data-[focus-visible=true]:z-10 data-[pressed=true]:translate-y-1 data-[pressed=true]:scale-[0.97] data-[hover=true]:opacity-100 data-[focus-visible=true]:outline-none data-[focus-visible=true]:outline-offset-0 motion-reduce:transition-none ${isLoading ? 'translate-y-1' : ''} ${isDisabled ? 'cursor-not-allowed' : ''}`,
+          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} [focus-visible=true]:outline-offset-0 bg-primary-yellow font-bold text-white outline-none data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 data-[focus-visible=true]:outline-none ${isLoading ? 'translate-y-1' : ''} ${isDisabled ? 'cursor-not-allowed' : ''}`,
           className
         )}
         isDisabled={isDisabled}
@@ -48,7 +48,7 @@ export const PrimaryOutlineButton = ({ className, isDisabled, isLoading, childre
     <div className='relative z-50 w-full'>
       <Button
         className={twMerge(
-          `data-[pressed=true]:scale-1 z-50 w-full select-none ${radiusClass} group relative z-0 box-border inline-flex h-10 w-fit min-w-10 select-none appearance-none items-center justify-center overflow-hidden whitespace-nowrap rounded-full border border-primary-yellow bg-transparent bg-white px-0 text-small text-primary-yellow subpixel-antialiased outline-none tap-highlight-transparent transition-transform-colors-opacity data-[focus-visible=true]:z-10 data-[pressed=true]:translate-y-1 data-[pressed=true]:scale-[0.97] data-[hover=true]:opacity-100 data-[focus-visible=true]:outline-none data-[focus-visible=true]:outline-offset-0 motion-reduce:transition-none ${isLoading ? 'translate-y-1' : ''}`,
+          `data-[pressed=true]:scale-1 [focus-visible=true]:outline-offset-0 z-50 w-full select-none outline-none data-[focus-visible=true]:outline-none ${radiusClass} border border-primary-yellow bg-white font-bold text-primary-yellow data-[pressed=true]:translate-y-1 data-[hover=true]:opacity-100 ${isLoading ? 'translate-y-1' : ''}`,
           className
         )}
         isDisabled={isDisabled}
@@ -75,7 +75,10 @@ export const PrimaryLightButton = ({ className, children, ...props }: Props) => 
         handlePhoneVibration()
         props?.onPress?.(e)
       }}
-      className={twMerge(`${radiusClass} select-none bg-primary-light-blue font-bold text-primary-blue`, className)}
+      className={twMerge(
+        `${radiusClass} [focus-visible=true]:outline-offset-0 select-none bg-primary-light-blue font-bold text-primary-blue outline-none data-[focus-visible=true]:outline-none`,
+        className
+      )}
       {...props}
     >
       {children}
