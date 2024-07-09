@@ -1,5 +1,5 @@
 import { TConversation } from '@/types'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useCallback, useEffect, useRef } from 'react'
 import MessageItem from './MessageItem'
 
 type ConversationType = {
@@ -14,18 +14,13 @@ const Conversation: React.FC<ConversationType> = ({ conversation, setIsBotRespon
     bottomRef?.current?.scrollIntoView({ behavior: 'smooth' })
   }, [bottomRef, conversation])
 
+  const handleComplete = useCallback(() => {
+    setIsBotResponding(false)
+  }, [])
+
   return (
     <div className='flex flex-col gap-2 px-4'>
-      {conversation?.map((item, index) => (
-        <MessageItem
-          onComplete={() => {
-            setIsBotResponding(false)
-          }}
-          key={index}
-          id={item?.id}
-          msg={item?.message}
-        />
-      ))}
+      {conversation?.map((item, index) => <MessageItem onComplete={handleComplete} key={index} id={item?.id} msg={item?.message} />)}
       <div ref={bottomRef} /> {/* Bottom reference for auto-scrolling */}
     </div>
   )

@@ -61,7 +61,7 @@ const FooterInput: React.FC<FooterInputType> = ({ conversation, isBotResponding,
               radius='none'
               placeholder='Nhập tin nhắn'
               endContent={
-                <Button ref={sendRef} isIconOnly isDisabled={isBotResponding} radius='full' className='flex items-center justify-center bg-transparent' onClick={handleSend}>
+                <Button ref={sendRef} isIconOnly isDisabled={isDisabled} radius='full' className='flex items-center justify-center bg-transparent' onClick={handleSend}>
                   <Send2 variant='Bold' className={`${!isDisabled ? 'text-primary-yellow' : 'text-primary-gray'} transition`} />
                 </Button>
               }
