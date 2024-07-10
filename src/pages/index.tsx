@@ -5,7 +5,7 @@ import FooterInput from '@/modules/FooterInput'
 import Header from '@/modules/Header'
 import TypewriterEffect from '@/modules/TypewriterEffect'
 import { TConversation } from '@/types'
-import { ChangeEvent, useCallback, useRef, useState } from 'react'
+import { ChangeEvent, RefObject, Suspense, useCallback, useRef, useState } from 'react'
 
 const words = 'Xin chào! Hãy cho tôi biết bạn đang cần người thợ như thế nào?'
 
@@ -15,7 +15,7 @@ const Home = () => {
   const [message, setMessage] = useState('')
   const [conversation, setConversation] = useState<TConversation[]>([])
 
-  const inputRef = useRef<any>(null)
+  const inputRef: RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null)
 
   const isDisabled = message.trim() === '' || isBotResponding
 
@@ -70,33 +70,35 @@ const Home = () => {
   }, [])
 
   return (
-    <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
-      <Header handleReset={handleReset} conversation={conversation} />
-      <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
-        {isLoadingAI ? (
-          <AILoading handleTimeEnd={handleTimeEnd} />
-        ) : conversation?.length > 0 ? (
-          <Conversation conversation={conversation} setIsBotResponding={setIsBotResponding} />
-        ) : (
-          <div className='mx-auto flex max-w-[258px] flex-col items-center gap-2'>
-            <div className='mx-auto h-12 w-16'>
-              <ImageFallback src='/robot.png' className='size-full' />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
+        <Header handleReset={handleReset} conversation={conversation} />
+        <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
+          {isLoadingAI ? (
+            <AILoading handleTimeEnd={handleTimeEnd} />
+          ) : conversation?.length > 0 ? (
+            <Conversation conversation={conversation} setIsBotResponding={setIsBotResponding} />
+          ) : (
+            <div className='mx-auto flex max-w-[258px] flex-col items-center gap-2'>
+              <div className='mx-auto h-12 w-16'>
+                <ImageFallback src='/robot.png' className='size-full' />
+              </div>
+              <div className='text-center text-sm'>
+                <TypewriterEffect words={words} />
+              </div>
             </div>
-            <div className='text-center text-sm'>
-              <TypewriterEffect words={words} />
-            </div>
-          </div>
-        )}
+          )}
+        </div>
+        <FooterInput
+          conversation={conversation}
+          isBotResponding={isBotResponding}
+          message={message}
+          handleChangeValue={handleChangeValue}
+          handleSendMessage={handleSendMessage}
+          isDisabled={isDisabled}
+        />
       </div>
-      <FooterInput
-        conversation={conversation}
-        isBotResponding={isBotResponding}
-        message={message}
-        handleChangeValue={handleChangeValue}
-        handleSendMessage={handleSendMessage}
-        isDisabled={isDisabled}
-      />
-    </div>
+    </Suspense>
   )
 }
 
