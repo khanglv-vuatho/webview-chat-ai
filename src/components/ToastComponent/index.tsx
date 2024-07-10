@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import { ToastOptions, TypeOptions, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 

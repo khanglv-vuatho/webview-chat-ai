@@ -97,7 +97,7 @@ export function PlaceholdersAndVanishInput({
         if (ctx) {
           ctx.clearRect(pos, 0, 800, 800)
           newDataRef.current.forEach((t) => {
-            const { x: n, y: i, r: s, color: color } = t
+            const { x: n, y: i, r: s } = t
             if (n > pos) {
               ctx.beginPath()
               ctx.rect(n, i, s, s)
