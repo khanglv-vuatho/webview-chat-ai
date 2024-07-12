@@ -6,7 +6,7 @@ import { TConversation } from '@/types'
 import { postMessageCustom } from '@/utils'
 import { motion } from 'framer-motion'
 import { ArrowLeft2, Refresh2 } from 'iconsax-react'
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { ButtonOnlyIcon } from '../Buttons'
 
 type HeaderProps = {
@@ -16,12 +16,14 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ handleReset, conversation }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const isHasMessage = conversation.length > 0
+  const isHasMessage = useMemo(() => {
+    return conversation.length > 0
+  }, [conversation])
 
   const handleClick = useCallback(() => {
     if (!isHasMessage) return
     setIsOpen(true)
-  }, [])
+  }, [conversation])
 
   const handleCancle = useCallback(() => {
     setIsOpen(false)

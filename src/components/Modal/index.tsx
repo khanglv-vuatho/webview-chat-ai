@@ -8,7 +8,7 @@ import { twMerge } from 'tailwind-merge'
 type DefaultModal = {
   isOpen: boolean
   onOpenChange: () => void
-  children?: any
+  children?: React.ReactNode | string
   className?: string
 } & ModalProps
 

@@ -75,10 +75,7 @@ export const PrimaryLightButton = ({ className, children, ...props }: Props) => 
         handlePhoneVibration()
         props?.onPress?.(e)
       }}
-      className={twMerge(
-        `${radiusClass} [focus-visible=true]:outline-offset-0 select-none bg-primary-light-blue font-bold text-primary-blue outline-none data-[focus-visible=true]:outline-none`,
-        className
-      )}
+      className={twMerge(`${radiusClass} [focus-visible=true]:outline-offset-0 select-none bg-primary-light-blue font-bold text-primary-blue outline-none data-[focus-visible=true]:outline-none`, className)}
       {...props}
     >
       {children}
