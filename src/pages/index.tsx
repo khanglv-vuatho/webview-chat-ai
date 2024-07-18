@@ -260,9 +260,9 @@ const Home = () => {
         isOpenModalConfirmDelete={isOpenModalConfirmDelete}
       />
       <div className='flex flex-col gap-1 *:w-full'>
-        <div>Token1 {token}</div>
-        <div>tokenUrl1 {tokenUrl}</div>
-        <div>TokenRedux1 {tokenRedux}</div>
+        <div>Token {token}</div>
+        <div>tokenUrl {tokenUrl}</div>
+        <div>TokenRedux {tokenRedux}</div>
       </div>
       <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
         {isLoadingAI ? (
