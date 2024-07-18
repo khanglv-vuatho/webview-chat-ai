@@ -2,7 +2,7 @@ import { PrimaryButton, PrimaryOutlineButton } from '@/components/Buttons'
 import ImageFallback from '@/components/ImageFallback'
 import { DefaultModal } from '@/components/Modal'
 import { keyPossmessage } from '@/constants'
-import { TConversation } from '@/types'
+import { Message } from '@/types'
 import { postMessageCustom } from '@/utils'
 import { motion } from 'framer-motion'
 import { ArrowLeft2, Refresh2 } from 'iconsax-react'
@@ -11,27 +11,23 @@ import { ButtonOnlyIcon } from '../Buttons'
 
 type HeaderProps = {
   handleReset: () => void
-  conversation: TConversation[]
+  conversation: Message[]
+  onDeteleting: boolean
+  isOpenModalConfirmDelete: boolean
+  setIsOpenModalConfirmDelete: (value: boolean) => void
 }
-const Header: React.FC<HeaderProps> = ({ handleReset, conversation }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-
+const Header: React.FC<HeaderProps> = ({ handleReset, conversation, onDeteleting, isOpenModalConfirmDelete, setIsOpenModalConfirmDelete }) => {
   const isHasMessage = useMemo(() => {
     return conversation.length > 0
   }, [conversation])
 
   const handleClick = useCallback(() => {
     if (!isHasMessage) return
-    setIsOpen(true)
+    setIsOpenModalConfirmDelete(true)
   }, [conversation])
 
   const handleCancle = useCallback(() => {
-    setIsOpen(false)
-  }, [])
-
-  const handleDelete = useCallback(() => {
-    handleReset()
-    setIsOpen(false)
+    setIsOpenModalConfirmDelete(false)
   }, [])
 
   return (
@@ -57,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ handleReset, conversation }) => {
           <Refresh2 className='text-primary-yellow' />
         </ButtonOnlyIcon>
       </motion.header>
-      <DefaultModal isOpen={isOpen} onOpenChange={() => {}}>
+      <DefaultModal isOpen={isOpenModalConfirmDelete} onOpenChange={() => {}}>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col items-center gap-2'>
             <div className='mx-auto w-[120px]'>
@@ -70,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ handleReset, conversation }) => {
             <PrimaryOutlineButton className='h-12 rounded-full' onPress={handleCancle}>
               Huỷ
             </PrimaryOutlineButton>
-            <PrimaryButton className='h-12 rounded-full' onPress={handleDelete}>
+            <PrimaryButton isLoading={onDeteleting} className='h-12 rounded-full' onPress={handleReset}>
               Xác nhận
             </PrimaryButton>
           </div>

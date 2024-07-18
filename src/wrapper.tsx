@@ -2,7 +2,8 @@ import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { TranslationProvider } from './context/translationProvider'
-
+import { ActionTypes } from './store'
+import 'fast-text-encoding'
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -12,6 +13,8 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const lang = queryParams.get('lang') || 'vi'
 
   const checkSession = useCallback(async () => {
+    console.log('daszzcxzczxccxzczx')
+
     if (token) {
       dispatch({
         type: 'token',
@@ -27,7 +30,13 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   }, [navigate])
 
   useEffect(() => {
-    if (import.meta.env.MODE === 'development') return
+    if (import.meta.env.MODE === 'development') {
+      dispatch({
+        type: ActionTypes.TOKEN,
+        payload: import.meta.env.VITE_TOKEN
+      })
+      return
+    }
 
     if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
       const ua = navigator.userAgent || navigator.vendor

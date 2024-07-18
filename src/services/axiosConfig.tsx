@@ -1,8 +1,9 @@
 import ToastComponent from '@/components/ToastComponent'
 
 import axios, { AxiosResponse } from 'axios'
+import { useDispatch } from 'react-redux'
 
-const apiConfig = {
+export const apiConfig = {
   baseUrl: import.meta.env.VITE_API_URL
 }
 
@@ -23,8 +24,7 @@ const getLangFromUrl = () => {
 const authorization = async () => {
   let token
   if (import.meta.env.MODE === 'development') {
-    token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZnVsbF9uYW1lIjoiTkdVWeG7hE4gVFLDgCBUSEFOSCBIVVkgIiwicHJvZmlsZV9waWN0dXJlIjoiaHR0cHM6Ly9jZG4tc2FuZGJveC52dWF0aG8uY29tL2ZhYWIzNmJmLTgxNTYtNDgyNC1iMWFmLWFiMGVjZTA0ODQ3NV8xNzAwMDQwMDY0MDExIiwicmVmX2lkIjpudWxsLCJreWNfc3RhdHVzIjoyLCJ3b3JrZXJfc3RhdHVzIjoyLCJzZXNzaW9uX2xvZ2lucyI6W3siSVAiOiIxOTIuMTY4LjAuNzciLCJkZXZpY2UiOiIxNzE4MDE0NjYzMzE2IiwidGltZSI6MTcxODAxNDY2MzMxNn1dLCJpYXQiOjE3MTgwMTQ2NjN9.ZuS9BXibaYkBAPoQeRDIR5dSaXg6WLgEHfEKgOivTxw'
+    token = import.meta.env.VITE_TOKEN
   } else {
     const queryParams = new URLSearchParams(location.search)
     token = queryParams?.get('token')
@@ -33,7 +33,7 @@ const authorization = async () => {
   const lang = getLangFromUrl()
 
   if (token) {
-    return { Authorization: 'Bearer ' + token, deviceId: '1718159750996', 'Accept-Language': lang }
+    return { Authorization: 'Bearer ' + token, 'Accept-Language': lang, responseType: 'stream' }
   } else {
     return {
       'Accept-Language': lang
