@@ -3,8 +3,8 @@ import { motion } from 'framer-motion'
 import ImageFallback from '@/components/ImageFallback'
 import { memo } from 'react'
 
-type TMessageItemProps = { msg: string; onComplete?: () => void; by_me: boolean }
-const MessageItem: React.FC<TMessageItemProps> = ({ msg, onComplete, by_me }) => {
+type TMessageItemProps = { msg: string; by_me: boolean; isAnimateMessage: boolean }
+const MessageItem: React.FC<TMessageItemProps> = ({ msg, by_me, isAnimateMessage }) => {
   const isBot = !by_me
   return (
     <div className={`flex items-end gap-1 ${isBot ? 'justify-start' : 'justify-end'}`}>

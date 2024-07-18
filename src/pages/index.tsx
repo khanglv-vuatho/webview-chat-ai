@@ -1,4 +1,5 @@
 import ImageFallback from '@/components/ImageFallback'
+import ToastComponent from '@/components/ToastComponent'
 import AILoading from '@/modules/AILoading'
 import Conversation from '@/modules/Conversation'
 import FooterInput from '@/modules/FooterInput'
@@ -22,6 +23,7 @@ const Home = () => {
   const [isLoadingAI, setIsLoadingAI] = useState(true)
   const [isBotResponding, setIsBotResponding] = useState(false)
   const [isOpenModalConfirmDelete, setIsOpenModalConfirmDelete] = useState(false)
+  const [isAnimateMessage, setIsAnimateMessage] = useState(false)
   const [message, setMessage] = useState('')
 
   const [conversation, setConversation] = useState<Message[]>([])
@@ -92,6 +94,7 @@ const Home = () => {
         },
         body: JSON.stringify(payload)
       })
+      ToastComponent({ message: token, type: 'info' })
 
       if (!response.body) {
         throw new Error('ReadableStream not yet supported in this browser.')
@@ -202,6 +205,8 @@ const Home = () => {
   const handleFetchingInitDataOfChating = async () => {
     try {
       const { data }: any = await instance.get('/webview/extract-problem')
+      ToastComponent({ message: token, type: 'error' })
+
       setDataInitMessage(data)
 
       setConversation(data.data)
@@ -250,6 +255,14 @@ const Home = () => {
     onDeteleting && handleDeleteChatHistory()
   }, [onDeteleting])
 
+  useEffect(() => {
+    const handleFetchingDataTest = async () => {
+      await instance.get('/webview/veryfi-booking-service')
+    }
+
+    handleFetchingDataTest()
+  }, [])
+
   return (
     <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <Header
@@ -268,7 +281,7 @@ const Home = () => {
         {isLoadingAI ? (
           <AILoading handleTimeEnd={handleTimeEnd} />
         ) : conversation?.length > 0 ? (
-          <Conversation conversation={conversation} setIsBotResponding={setIsBotResponding} />
+          <Conversation isAnimateMessage={isAnimateMessage} conversation={conversation} />
         ) : (
           <div className='mx-auto flex max-w-[258px] flex-col items-center gap-2'>
             <div className='mx-auto h-12 w-16'>
