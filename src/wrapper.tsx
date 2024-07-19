@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { TranslationProvider } from './context/translationProvider'
 import { ActionTypes } from './store'
-import 'fast-text-encoding'
+
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate()
   const location = useLocation()
