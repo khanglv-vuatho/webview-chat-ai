@@ -85,7 +85,7 @@ const Home = () => {
 
       setMessage('')
 
-      const response = await fetch(import.meta.env.VITE_API_URL + '/webview/extract-problem', {
+      const response = await fetch('https://local-sandbox-api-v1.vuatho.com/v1' + '/webview/extract-problem', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
