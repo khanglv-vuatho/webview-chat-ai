@@ -193,6 +193,8 @@ const Home = () => {
           }
         }
       }
+
+      ToastComponent({ message: 'API success', type: 'success' })
     } catch (error) {
       console.error('Error:', error)
     } finally {
