@@ -94,7 +94,6 @@ const Home = () => {
         },
         body: JSON.stringify(payload)
       })
-      ToastComponent({ message: token, type: 'info' })
 
       if (!response.body) {
         throw new Error('ReadableStream not yet supported in this browser.')
@@ -205,7 +204,6 @@ const Home = () => {
   const handleFetchingInitDataOfChating = async () => {
     try {
       const { data }: any = await instance.get('/webview/extract-problem')
-      ToastComponent({ message: token, type: 'error' })
 
       setDataInitMessage(data)
 
@@ -255,14 +253,6 @@ const Home = () => {
     onDeteleting && handleDeleteChatHistory()
   }, [onDeteleting])
 
-  useEffect(() => {
-    const handleFetchingDataTest = async () => {
-      await instance.get('/webview/veryfi-booking-service')
-    }
-
-    handleFetchingDataTest()
-  }, [])
-
   return (
     <div className={`relative flex h-dvh ${isLoadingAI ? 'overflow-hidden' : 'overflow-auto'} flex-col`}>
       <Header
@@ -272,11 +262,7 @@ const Home = () => {
         setIsOpenModalConfirmDelete={setIsOpenModalConfirmDelete}
         isOpenModalConfirmDelete={isOpenModalConfirmDelete}
       />
-      <div className='flex flex-col gap-1 *:w-full'>
-        <div>Token {token}</div>
-        <div>tokenUrl {tokenUrl}</div>
-        <div>TokenRedux {tokenRedux}</div>
-      </div>
+
       <div className={`flex flex-1 flex-col gap-2 overflow-auto py-4`}>
         {isLoadingAI ? (
           <AILoading handleTimeEnd={handleTimeEnd} />
