@@ -181,7 +181,7 @@ const Home = () => {
                     // Trả về mảng đã được cập nhật
                     return updatedConversation
                   }
-
+                  //test
                   console.log({ accumulatedContent })
                   // Nếu không có tin nhắn từ AI hoặc không có tin nhắn nào trong cuộc trò chuyện trước đó, thêm tin nhắn mới vào cuối mảng
                   return [...prevConversation, newConversation]
