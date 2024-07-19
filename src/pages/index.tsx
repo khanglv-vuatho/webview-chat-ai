@@ -205,7 +205,9 @@ const Home = () => {
       setIsBotResponding(false)
     }
   }
-
+  useEffect(() => {
+    ToastComponent({ message: 'VITE_API_URL' + import.meta.env.VITE_API_URL, type: 'success' })
+  }, [])
   const handleFetchingInitDataOfChating = async () => {
     try {
       const { data }: any = await instance.get('/webview/extract-problem')
