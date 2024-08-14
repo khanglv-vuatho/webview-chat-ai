@@ -1,4 +1,6 @@
 import ToastComponent from '@/components/ToastComponent'
+import { keyPossmessage } from '@/constants'
+import { Message, TClearData, TPostMessage } from '@/types'
 import moment from 'moment'
 import { useEffect, useRef, useState } from 'react'
 
@@ -33,6 +35,7 @@ function capitalizeWords(string: string) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
 }
+
 const useDebounce = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value)
   const handler: any = useRef(null)
@@ -73,14 +76,81 @@ const formatDDMMYYYY = (time: string) => {
   return moment(time).format('DD/MM/YYYY')
 }
 
-const postMessageCustom = ({ message }: { message: string }) => {
+const postMessageCustom = ({ message, data = {} }: TPostMessage) => {
   //@ts-ignore
   if (window?.vuatho) {
     //@ts-ignore
-    window?.vuatho?.postMessage(message)
+    window?.vuatho?.postMessage(
+      JSON.stringify({
+        message,
+        data
+      })
+    )
   } else {
     ToastComponent({ message: message || 'has bug here', type: 'error' })
   }
 }
 
-export { useUnfocusItem, capitalizeWords, useDebounce, handleAddLangInUrl, formatLocalTime, formatDDMMYYYY, postMessageCustom }
+type TFormatDataPostMessage = {
+  dataInput: TClearData | null
+  serviceIdApi?: number
+}
+
+const formatDataPostMessage = ({ dataInput, serviceIdApi }: TFormatDataPostMessage): TPostMessage => {
+  const queryParams = new URLSearchParams(location.search)
+  const serviceId = queryParams.get('serviceId')
+  const isFromUserBookingForm = queryParams.get('isFromUserBookingForm')
+  const serviceName = queryParams.get('serviceName')
+  const problem = queryParams.get('problem')
+
+  let result = {
+    message: '',
+    data: {}
+  }
+  if (!dataInput) return result
+
+  const dataClean = {
+    translatedWorkerName: dataInput?.translated_workerName,
+    translatedSummarizeProblem: dataInput?.translated_summarizeProblem,
+    currencySymbol: dataInput?.currency_symbol,
+    rangePrice: dataInput?.range
+  }
+
+  if (!serviceId && !isFromUserBookingForm) {
+    if (!serviceIdApi) return result
+    result = {
+      message: keyPossmessage.AI_RESPONSE,
+      data: {
+        serviceId: serviceIdApi,
+        ...dataClean
+      }
+    }
+  } else if (!!isFromUserBookingForm && serviceId != null && serviceName != null && problem != null) {
+    //{translatedSummarizeProblem, currencySymbol, rangePrice}
+    const cloneDataClean: any = { ...dataClean }
+    delete cloneDataClean.translatedWorkerName
+    result = {
+      message: keyPossmessage.AI_RESPONSE_FOR_BOOKING_FORM,
+      data: {
+        ...cloneDataClean
+      }
+    }
+  } else if (serviceId != null && isFromUserBookingForm == null) {
+    //{serviceId, translatedWorkerName, translatedSummarizeProblem, currencySymbol, rangePrice}
+    result = {
+      message: keyPossmessage.AI_RESPONSE_FOR_SPECIFIC_SERVICE,
+      data: {
+        serviceId: Number(serviceId),
+        ...dataClean
+      }
+    }
+  }
+
+  return result
+}
+
+const handleToastNoNetwork = () => {
+  ToastComponent({ type: 'error', message: 'Không có kết nối mạng, vui lòng kiểm tra lại!' })
+}
+
+export { useUnfocusItem, capitalizeWords, useDebounce, handleAddLangInUrl, formatLocalTime, formatDDMMYYYY, postMessageCustom, formatDataPostMessage, handleToastNoNetwork }

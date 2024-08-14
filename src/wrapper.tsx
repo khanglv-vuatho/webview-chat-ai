@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import 'fast-text-encoding'
 import { TranslationProvider } from './context/translationProvider'
 import { ActionTypes } from './store'
 
@@ -13,8 +14,6 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const lang = queryParams.get('lang') || 'vi'
 
   const checkSession = useCallback(async () => {
-    console.log('daszzcxzczxccxzczx')
-
     if (token) {
       dispatch({
         type: 'token',
@@ -57,20 +56,6 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
       }
     }
   }, [navigate])
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 600) return
-      navigate('/invalid')
-    }
-
-    handleResize()
-
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
 
   return (
     <TranslationProvider lang={lang}>

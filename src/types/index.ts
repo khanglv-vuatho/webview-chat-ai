@@ -15,6 +15,7 @@ export type Message = {
   content: string
   type: 'text' | 'image'
   isDisable: boolean
+  id: number
 }
 
 type TEnglishOriginal = {
@@ -37,9 +38,19 @@ export type TClearData = {
   location_name_from_latlng: string
   translated_summarizeProblem: string
 }
+
+export type TServiceToProblem = {
+  icon: string
+  id: number
+  isNew: boolean
+  name: string
+}
+
 export type TAllMessage = {
   id?: number
   clear_data: null | TClearData
   created_at: string
   data: Message[]
 }
+
+export type TPostMessage = { message: string; data?: any }
